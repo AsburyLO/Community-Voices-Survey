@@ -1435,11 +1435,17 @@ async function submitSurvey() {
   submitBtn.disabled = true;
 
   try {
+    // 1. Create a FormData object to package your survey answers correctly
+    const formData = new FormData();
+    for (const key in payload) {
+      formData.append(key, payload[key]);
+    }
+
+    // 2. Send the FormData to your Google Script URL
     await fetch('https://script.google.com/macros/s/AKfycbxC63W1IbRhS2E6BRAwQ9HYSHnTz4C9J7JKZ4ndJl6JuPwdegwWI_hHfzrYkveCqaU4Wg/exec', {
       method: 'POST',
       mode: 'no-cors',
-      headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify(payload)
+      body: formData // This replaces JSON.stringify
     });
 
     document.getElementById('sec' + currentStep).classList.remove('active');
