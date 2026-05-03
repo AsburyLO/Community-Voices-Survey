@@ -458,6 +458,53 @@
     margin-bottom: 18px;
     font-style: italic;
   }
+
+  /* ── REQUIRED & VALIDATION ───────────────── */
+  .req-star {
+    color: #C0392B;
+    font-size: 14px;
+    margin-left: 3px;
+    font-style: normal;
+  }
+  .error-msg {
+    display: none;
+    color: #C0392B;
+    font-size: 13px;
+    font-weight: 500;
+    margin-top: 8px;
+    padding-left: 32px;
+    align-items: center;
+    gap: 5px;
+  }
+  .error-msg.visible { display: flex; }
+  .error-msg::before { content: "⚠ "; }
+  .question-block.has-error .options-grid,
+  .question-block.has-error .open-textarea {
+    outline: 2px solid #C0392B;
+    border-radius: var(--radius);
+  }
+  .question-block.has-error .open-textarea {
+    border-color: #C0392B;
+    outline: none;
+  }
+  .q5-count {
+    display: inline-block;
+    margin-left: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 12px;
+    background: var(--gold-light);
+    color: var(--gold);
+    font-style: normal;
+    transition: background 0.2s, color 0.2s;
+  }
+  .q5-count.at-max { background: #FDECEA; color: #C0392B; }
+  .option-label.disabled-check {
+    opacity: 0.45;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
 </style>
 </head>
 <body>
@@ -479,9 +526,9 @@
   <button class="lang-btn" onclick="setLang('my')">မြန်မာ</button>
   <button class="lang-btn" onclick="setLang('zo')">Zomi</button>
   <button class="lang-btn" onclick="setLang('vi')">Tiếng Việt</button>
-  <button class="lang-btn" onclick="setLang('so')">Soomaali</button>
-  <button class="lang-btn" onclick="setLang('fr')">Français</button>
-  <button class="lang-btn" onclick="setLang('am')">አማርኛ</button>
+  <button class="lang-btn" onclick="setLang('fa')">فارسی</button>
+  <button class="lang-btn" onclick="setLang('zh')">中文</button>
+  <button class="lang-btn" onclick="setLang('ko')">한국어</button>
 </div>
 
 <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
@@ -497,8 +544,8 @@
     </div>
     <div class="section-body">
 
-      <div class="question-block">
-        <div class="q-label"><span class="q-num">1</span><span data-i18n="q1">What is your age group?</span></div>
+      <div class="question-block" id="qblock1">
+        <div class="q-label"><span class="q-num">1</span><span data-i18n="q1">What is your age group?</span><em class="req-star" title="Required">*</em></div>
         <p class="q-note" data-i18n="q1_note">Select one</p>
         <div class="options-grid two-col">
           <label class="option-label"><input type="radio" name="age" value="14-18"><span>14–18</span></label>
@@ -508,20 +555,22 @@
           <label class="option-label"><input type="radio" name="age" value="45-62"><span>45–62</span></label>
           <label class="option-label"><input type="radio" name="age" value="63+"><span>63+</span></label>
         </div>
+        <p class="error-msg" id="err1" data-i18n="err_required">This question is required.</p>
       </div>
 
       <hr class="q-divider">
 
-      <div class="question-block">
-        <div class="q-label"><span class="q-num">2</span><span data-i18n="q2">What area do you live in?</span></div>
+      <div class="question-block" id="qblock2">
+        <div class="q-label"><span class="q-num">2</span><span data-i18n="q2">What area do you live in?</span><em class="req-star" title="Required">*</em></div>
         <p class="q-note" data-i18n="q2_note">e.g., apartment or subdivision name, intersection like 71st & Mingo, or zip code</p>
         <textarea class="open-textarea" id="q2_area" rows="2" data-i18n-placeholder="q2_placeholder"></textarea>
+        <p class="error-msg" id="err2" data-i18n="err_required">This question is required.</p>
       </div>
 
       <hr class="q-divider">
 
-      <div class="question-block">
-        <div class="q-label"><span class="q-num">3</span><span data-i18n="q3">How long have you been part of this community?</span></div>
+      <div class="question-block" id="qblock3">
+        <div class="q-label"><span class="q-num">3</span><span data-i18n="q3">How long have you been part of this community?</span><em class="req-star" title="Required">*</em></div>
         <p class="q-note" data-i18n="q1_note">Select one</p>
         <div class="options-grid two-col">
           <label class="option-label"><input type="radio" name="duration" value="<1yr"><span data-i18n="dur1">Less than 1 year</span></label>
@@ -529,12 +578,13 @@
           <label class="option-label"><input type="radio" name="duration" value="6-10yr"><span data-i18n="dur3">6–10 years</span></label>
           <label class="option-label"><input type="radio" name="duration" value="10+yr"><span data-i18n="dur4">10+ years</span></label>
         </div>
+        <p class="error-msg" id="err3" data-i18n="err_required">This question is required.</p>
       </div>
 
       <hr class="q-divider">
 
-      <div class="question-block">
-        <div class="q-label"><span class="q-num">4</span><span data-i18n="q4">Are you connected with Asbury Church?</span></div>
+      <div class="question-block" id="qblock4">
+        <div class="q-label"><span class="q-num">4</span><span data-i18n="q4">Are you connected with Asbury Church?</span><em class="req-star" title="Required">*</em></div>
         <p class="q-note" data-i18n="q1_note">Select one</p>
         <div class="options-grid">
           <label class="option-label"><input type="radio" name="church" value="regular"><span data-i18n="church1">Regular attendee</span></label>
@@ -542,6 +592,7 @@
           <label class="option-label"><input type="radio" name="church" value="not_connected"><span data-i18n="church3">Not connected</span></label>
           <label class="option-label"><input type="radio" name="church" value="never_heard"><span data-i18n="church4">Never heard of it</span></label>
         </div>
+        <p class="error-msg" id="err4" data-i18n="err_required">This question is required.</p>
       </div>
 
     </div>
@@ -559,9 +610,9 @@
     </div>
     <div class="section-body">
 
-      <div class="question-block">
-        <div class="q-label"><span class="q-num">5</span><span data-i18n="q5">What are the top 3 challenges facing your community today?</span></div>
-        <p class="q-note" data-i18n="q5_note">Select up to 3</p>
+      <div class="question-block" id="qblock5">
+        <div class="q-label"><span class="q-num">5</span><span data-i18n="q5">What are the top 3 challenges facing your community today?</span><em class="req-star" title="Required">*</em></div>
+        <p class="q-note"><span data-i18n="q5_note">Select up to 3</span> <span class="q5-count" id="q5count">0 / 3</span></p>
         <div class="options-grid two-col">
           <label class="option-label"><input type="checkbox" name="challenges" value="housing"><span data-i18n="ch1">Affordable housing</span></label>
           <label class="option-label"><input type="checkbox" name="challenges" value="unemployment"><span data-i18n="ch2">Unemployment</span></label>
@@ -579,6 +630,7 @@
           <label for="ch_other_cb" style="font-size:14px; white-space:nowrap;" data-i18n="other_label">Other:</label>
           <input type="text" class="other-text-input" id="ch_other_txt" data-i18n-placeholder="other_ph">
         </div>
+        <p class="error-msg" id="err5" data-i18n="err_required">This question is required.</p>
       </div>
 
       <hr class="q-divider">
@@ -767,6 +819,7 @@ const T = {
     volunteer_label:"Please contact me about volunteer or leadership opportunities:",
     yes_label:"Yes", no_label:"No",
     next_btn:"Next →", prev_btn:"← Back", submit_btn:"✓ Submit Survey",
+    err_required:"This question is required.",
     ty_title:"Thank You!", ty_msg:"Your voice helps shape our community's future. We are grateful for your time and honest input. Asbury Church will use your feedback to better serve our neighborhoods.",
   },
 
@@ -812,6 +865,7 @@ const T = {
     volunteer_label:"Por favor contáctame sobre oportunidades de voluntariado o liderazgo:",
     yes_label:"Sí", no_label:"No",
     next_btn:"Siguiente →", prev_btn:"← Atrás", submit_btn:"✓ Enviar Encuesta",
+    err_required:"Esta pregunta es obligatoria.",
     ty_title:"¡Gracias!", ty_msg:"Tu voz ayuda a moldear el futuro de nuestra comunidad. Estamos agradecidos por tu tiempo y respuestas honestas. La Iglesia Asbury usará tus comentarios para servir mejor a nuestros vecindarios.",
   },
 
@@ -857,6 +911,7 @@ const T = {
     volunteer_label:"Прошу зв'яжіться зі мною щодо волонтерства або лідерства:",
     yes_label:"Так", no_label:"Ні",
     next_btn:"Далі →", prev_btn:"← Назад", submit_btn:"✓ Надіслати Опитування",
+    err_required:"Це запитання є обов'язковим.",
     ty_title:"Дякуємо!", ty_msg:"Ваш голос допомагає формувати майбутнє нашої громади. Ми вдячні за ваш час та чесні відповіді. Церква Асбері використає ваші відгуки для кращого служіння нашим мікрорайонам.",
   },
 
@@ -902,6 +957,7 @@ const T = {
     volunteer_label:"يرجى التواصل معي بشأن فرص التطوع أو القيادة:",
     yes_label:"نعم", no_label:"لا",
     next_btn:"التالي →", prev_btn:"→ السابق", submit_btn:"✓ إرسال الاستطلاع",
+    err_required:"هذا السؤال مطلوب.",
     ty_title:"شكراً لك!", ty_msg:"صوتك يساعد في تشكيل مستقبل مجتمعنا. نحن ممتنون لوقتك وإجاباتك الصادقة. ستستخدم كنيسة أزبري ملاحظاتك لخدمة أحيائنا بشكل أفضل.",
   },
 
@@ -947,6 +1003,7 @@ const T = {
     volunteer_label:"Свяжитесь со мной по поводу волонтёрства или лидерства:",
     yes_label:"Да", no_label:"Нет",
     next_btn:"Далее →", prev_btn:"← Назад", submit_btn:"✓ Отправить Опрос",
+    err_required:"Этот вопрос обязателен.",
     ty_title:"Спасибо!", ty_msg:"Ваш голос помогает формировать будущее нашего сообщества. Мы благодарны за ваше время и честные ответы. Церковь Асбери использует ваши отзывы для лучшего служения нашим районам.",
   },
 
@@ -992,6 +1049,7 @@ const T = {
     volunteer_label:"စေတနာ့ဝန်ထမ်း သို့မဟုတ် ခေါင်းဆောင်မှုဆိုင်ရာ အခွင့်အလမ်းများနှင့် ပတ်သက်၍ ဆက်သွယ်ပါ:",
     yes_label:"ဟုတ်ကဲ့", no_label:"မဟုတ်ပါ",
     next_btn:"နောက်တစ်ဆင့် →", prev_btn:"← နောက်သို့", submit_btn:"✓ စစ်တမ်း တင်သွင်းရန်",
+    err_required:"ဤမေးခွန်းသည် မဖြစ်မနေဖြေရမည်။",
     ty_title:"ကျေးဇူးတင်ပါသည်!", ty_msg:"သင့်အသံသည် ကျွန်ုပ်တို့ လူ့အဖွဲ့အစည်း၏ အနာဂတ်ကို ပုံဖော်ရာတွင် ကူညီသည်။ သင့်အချိန်နှင့် ရိုးသားသောတုံ့ပြန်မှုများအတွက် ကျေးဇူးတင်ပါသည်",
   },
 
@@ -1037,6 +1095,7 @@ const T = {
     volunteer_label:"Koikhawm thilgenna ahiam lamdanpihna nading thu piak ding in:",
     yes_label:"Hi", no_label:"Hi lo",
     next_btn:"Nakhawn →", prev_btn:"← Tungkuang", submit_btn:"✓ Zawhna Kizang",
+    err_required:"Hi zawhna a ngai hi.",
     ty_title:"Lawmthu!", ty_msg:"Na thu in kan koikhawm sunzin phuisiam nading hong pehpih hi. Na hun leh thucinna in lawmthu sawl hi. Asbury Koikhawm in na thu piang in kan veng zong tha zawk bawl ding ahi.",
   },
 
@@ -1082,142 +1141,146 @@ const T = {
     volunteer_label:"Vui lòng liên hệ với tôi về cơ hội tình nguyện hoặc lãnh đạo:",
     yes_label:"Có", no_label:"Không",
     next_btn:"Tiếp theo →", prev_btn:"← Quay lại", submit_btn:"✓ Gửi Khảo Sát",
+    err_required:"Câu hỏi này là bắt buộc.",
     ty_title:"Cảm ơn bạn!", ty_msg:"Tiếng nói của bạn giúp định hình tương lai cộng đồng chúng ta. Chúng tôi biết ơn thời gian và những ý kiến chân thành của bạn. Nhà thờ Asbury sẽ sử dụng phản hồi của bạn để phục vụ khu phố tốt hơn.",
   },
 
-  so: {
-    church_name:"Kaniisadda Asbury", survey_title:"Xog-Ururintii Codka Bulshada",
-    survey_subtitle:"Waxaan Wadajir Samaynayaa Mustaqbalkayaga",
-    survey_desc:"Naga caawi si aan u fahanno sida looga hagaajin karo xaafadahayaga",
-    sec1_badge:"Qaybta 1", sec1_title:"Adiga Kuu Saabsan",
-    sec2_badge:"Qaybta 2", sec2_title:"Caqabadaha Bulshada iyo Caafimaadka",
-    sec3_badge:"Qaybta 3", sec3_title:"Xoogga Bulshada iyo Xalinta",
-    sec4_badge:"Qaybta 4", sec4_title:"Wadahadallada Mustaqbalka",
-    sec5_badge:"Ikhtiyaari", sec5_title:"La Xidh-xidhanaanso",
-    q1:"Kooxda da'daada ma tahay?", q1_note:"Dooro mid",
-    q2:"Xaafadee ayaad deganaataa?",
-    q2_note:"Tusaale: magaca guryaha, xaaladda waddada, ama koodhka boostada",
-    q2_placeholder:"Xaafadaada, ballaadhka waddada, ama koodhka boostada…",
-    q3:"Muddo intee ah ayaad xaaladdan ka mid ahayd?",
-    q4:"Miyaad la xidh-xidhantahay Kaniisadda Asbury?",
-    q5:"Maxay yihiin 3-da caqabad ugu weyn ee bulshadu maanta la kulmayso?",
-    q5_note:"Dooro ilaa 3",
-    q6:"Ma jiraa khidmad ama agab gaar ah oo maqan xaaladda ku xidha?",
-    q6_note:"Fikiir waxa aad rabtay in ay jirto masafada lugeed ama baabuurta.",
-    q7:"Maxay yihiin baahiyaha adiga ama qoyskaagu hadda haysataan?",
-    q7_note:"Wadaag intaad doonto.",
-    q8:"Ma leedahay xirfad ama waxa ay xiisayso oo aad diyaar u tahay wadaagida?",
-    q8_note:"Tusaale: dayactirka, barashada, beerta, karinta, maaraynta, hoggaaminta, iwm.",
-    q9:"Xoogagee ayaa horey ugu jiray bulshada?",
-    q10:"Ma ka qayb galidoontaa hoggaaminta ama adeegida barnaamijyada bulshada?",
-    q11:"Maxaa kaa hortagi kara kaqaybgalka?", q11_note:"Dooro dhammaan kuwa kuu habboon",
-    dur1:"Ka yar 1 sano", dur2:"1–5 sano", dur3:"6–10 sano", dur4:"Ka badan 10 sano",
-    church1:"Soo dhowaanshaha joogta ah", church2:"Booqasho iskiis", church3:"La xidh-xidhan", church4:"Marna ma maqlin",
-    ch1:"Guriyaha la heli karo", ch2:"Shaqo la'aanta", ch3:"Shaqada aan ku filnayn", ch4:"Helitaanka cuntada",
-    ch5:"Daryeelka ilmaha", ch6:"Gaadiidka", ch7:"Barnaamijyada dhalinyarada", ch8:"Taageerada caafimaadka maskaxda",
-    ch9:"Daaweynta la heli karo", ch10:"Caqabadaha luqadda / dhaqanka",
-    part1:"Aad u suurtogal", part2:"Xoogaa suurtogal ah", part3:"Hadda suurtogal ma ahan", part4:"Maya",
-    bar1:"Xaddidaadda wakhtiga", bar2:"Gaadiidka", bar3:"Baahiyaha daryeelka ilmaha", bar4:"Kharashka",
-    bar5:"Xog la'aanta barnaamijyada", bar6:"Caqabadda luqadda",
-    other_label:"Kale:", other_ph:"Faahfaahin…", lang_ph:"Faahfaahi luqadda…",
-    open_ph:"Jawaabta…",
-    contact_note:"Haddaad rabto inaad la xidh-xidhanaato, helin wararka barnaamijyada bulshada, ama ka qayb galto tallaabada xiga, fadlan noo sheeg xiriirkaaga. Tani si buuxda waa ikhtiyaari.",
-    name_label:"Magaca", name_ph:"Magacaaga…",
-    contact_label:"Iimaylka ama Telefoonka", contact_ph:"Ciwaanka iimaylka ama lambarka telefoonka…",
-    volunteer_label:"Fadlan igu soo xidh xiriirka fursadaha xilliga nafiiga ama hoggaaminta:",
-    yes_label:"Haa", no_label:"Maya",
-    next_btn:"Xiga →", prev_btn:"← Dib", submit_btn:"✓ U Dir Xog-Ururintii",
-    ty_title:"Mahadsanid!", ty_msg:"Codkaagu wuxuu ka caawiyaa qaabaysiinta mustaqbalka bulshadeena. Waxaan u mahad naqaynaa wakhtiga iyo jawaabaha daacadda ah. Kaniisadda Asbury waxay isticmaali doontaa fikirkaaga si ay u adeegto xaafadaha si wanaagsan.",
+  fa: {
+    church_name:"کلیسای ازبری", survey_title:"نظرسنجی صدای جامعه",
+    survey_subtitle:"آینده‌ای مشترک می‌سازیم",
+    survey_desc:"به ما کمک کنید بفهمیم چطور می‌توانیم محله‌هایمان را بهتر کنیم",
+    sec1_badge:"بخش ۱", sec1_title:"درباره شما",
+    sec2_badge:"بخش ۲", sec2_title:"چالش‌های جامعه و رفاه",
+    sec3_badge:"بخش ۳", sec3_title:"نقاط قوت جامعه و راه‌حل‌ها",
+    sec4_badge:"بخش ۴", sec4_title:"مشارکت‌های آینده",
+    sec5_badge:"اختیاری", sec5_title:"در ارتباط بمانید",
+    q1:"گروه سنی شما چیست؟", q1_note:"یکی را انتخاب کنید",
+    q2:"در چه منطقه‌ای زندگی می‌کنید؟",
+    q2_note:"مثلاً: نام آپارتمان یا محله، تقاطع خیابان، یا کد پستی",
+    q2_placeholder:"محله، تقاطع، یا کد پستی شما…",
+    q3:"چه مدت است که بخشی از این جامعه هستید؟",
+    q4:"آیا با کلیسای ازبری در ارتباط هستید؟",
+    q5:"سه چالش اصلی که جامعه شما امروز با آن روبرو است چیست؟",
+    q5_note:"تا ۳ مورد انتخاب کنید",
+    q6:"آیا منبع یا خدمات خاصی در منطقه شما وجود ندارد؟",
+    q6_note:"به چیزی فکر کنید که دوست داشتید در فاصله پیاده‌روی یا رانندگی موجود باشد.",
+    q7:"شما یا خانواده‌تان در حال حاضر چه نیازهایی دارید؟",
+    q7_note:"هر اندازه که مایلید به اشتراک بگذارید.",
+    q8:"آیا مهارت یا سرگرمی‌ای دارید که بخواهید به اشتراک بگذارید؟",
+    q8_note:"مثلاً: تعمیر، آموزش، باغبانی، آشپزی، مدیریت، رهبری و غیره",
+    q9:"چه نقاط قوتی از قبل در جامعه شما وجود دارد؟",
+    q10:"آیا در رهبری یا خدمت در برنامه‌های اجتماعی شرکت می‌کنید؟",
+    q11:"چه چیزی می‌تواند مانع مشارکت شما شود؟", q11_note:"همه موارد مناسب را انتخاب کنید",
+    dur1:"کمتر از ۱ سال", dur2:"۱–۵ سال", dur3:"۶–۱۰ سال", dur4:"بیش از ۱۰ سال",
+    church1:"شرکت‌کننده منظم", church2:"بازدیدکننده گاه‌گاهی", church3:"بدون ارتباط", church4:"هرگز نشنیده‌ام",
+    ch1:"مسکن مقرون‌به‌صرفه", ch2:"بیکاری", ch3:"اشتغال ناقص", ch4:"دسترسی به مواد غذایی",
+    ch5:"مراقبت از کودک", ch6:"حمل‌ونقل", ch7:"برنامه‌های جوانان", ch8:"حمایت از سلامت روان",
+    ch9:"مراقبت‌های بهداشتی مقرون‌به‌صرفه", ch10:"موانع زبانی / فرهنگی",
+    part1:"خیلی محتمل", part2:"تا حدی محتمل", part3:"در حال حاضر محتمل نیست", part4:"نه",
+    bar1:"محدودیت زمانی", bar2:"حمل‌ونقل", bar3:"نیازهای مراقبت از کودک", bar4:"هزینه",
+    bar5:"فقدان اطلاعات درباره برنامه‌ها", bar6:"مانع زبانی",
+    other_label:"سایر:", other_ph:"لطفاً مشخص کنید…", lang_ph:"زبان را مشخص کنید…",
+    open_ph:"پاسخ شما…",
+    contact_note:"اگر می‌خواهید در ارتباط بمانید، اخبار برنامه‌های اجتماعی را دریافت کنید، یا در مراحل بعدی شرکت کنید، لطفاً اطلاعات تماس خود را به اشتراک بگذارید. این کاملاً اختیاری است.",
+    name_label:"نام", name_ph:"نام شما…",
+    contact_label:"ایمیل یا تلفن", contact_ph:"آدرس ایمیل یا شماره تلفن…",
+    volunteer_label:"لطفاً درباره فرصت‌های داوطلبانه یا رهبری با من تماس بگیرید:",
+    yes_label:"بله", no_label:"خیر",
+    next_btn:"بعدی →", prev_btn:"→ قبلی", submit_btn:"✓ ارسال نظرسنجی",
+    err_required:"این سوال الزامی است.",
+    ty_title:"متشکریم!", ty_msg:"صدای شما به شکل‌دهی آینده جامعه ما کمک می‌کند. از وقت و صداقت شما سپاسگزاریم. کلیسای ازبری از بازخورد شما برای خدمت بهتر به محله‌هایمان استفاده خواهد کرد.",
   },
 
-  fr: {
-    church_name:"Église Asbury", survey_title:"Sondage Voix de la Communauté",
-    survey_subtitle:"Façonner Notre Avenir Ensemble",
-    survey_desc:"Aidez-nous à comprendre comment améliorer nos quartiers ensemble",
-    sec1_badge:"Section 1", sec1_title:"À Votre Sujet",
-    sec2_badge:"Section 2", sec2_title:"Défis Communautaires et Bien-être",
-    sec3_badge:"Section 3", sec3_title:"Forces Communautaires et Solutions",
-    sec4_badge:"Section 4", sec4_title:"Partenariats Futurs",
-    sec5_badge:"Facultatif", sec5_title:"Rester Connecté",
-    q1:"Quelle est votre tranche d'âge?", q1_note:"Sélectionnez-en une",
-    q2:"Dans quel quartier vivez-vous?",
-    q2_note:"p.ex., nom de l'appartement ou du lotissement, carrefour ou code postal",
-    q2_placeholder:"Votre quartier, carrefour ou code postal…",
-    q3:"Depuis combien de temps faites-vous partie de cette communauté?",
-    q4:"Êtes-vous connecté à l'Église Asbury?",
-    q5:"Quels sont les 3 principaux défis auxquels votre communauté est confrontée aujourd'hui?",
-    q5_note:"Sélectionnez jusqu'à 3",
-    q6:"Y a-t-il une ressource ou un service spécifique manquant dans votre zone?",
-    q6_note:"Pensez à ce que vous aimeriez trouver à distance de marche ou en voiture.",
-    q7:"Quels besoins vous ou votre famille avez-vous actuellement?",
-    q7_note:"Partagez autant ou aussi peu que vous le souhaitez.",
-    q8:"Avez-vous une compétence ou un passe-temps que vous seriez prêt à partager?",
-    q8_note:"p.ex., réparations, tutorat, jardinage, cuisine, administration, leadership, etc.",
-    q9:"Quelles forces existent déjà dans votre communauté?",
-    q10:"Participeriez-vous en dirigeant ou en servant dans des programmes communautaires?",
-    q11:"Qu'est-ce qui vous empêcherait de participer?", q11_note:"Sélectionnez toutes les réponses applicables",
-    dur1:"Moins de 1 an", dur2:"1–5 ans", dur3:"6–10 ans", dur4:"Plus de 10 ans",
-    church1:"Participant régulier", church2:"Visiteur occasionnel", church3:"Non connecté", church4:"Jamais entendu parler",
-    ch1:"Logement abordable", ch2:"Chômage", ch3:"Sous-emploi", ch4:"Accès alimentaire",
-    ch5:"Garde d'enfants", ch6:"Transport", ch7:"Programmes jeunesse", ch8:"Soutien en santé mentale",
-    ch9:"Soins de santé abordables", ch10:"Barrières linguistiques / culturelles",
-    part1:"Très probable", part2:"Plutôt probable", part3:"Pas probable pour l'instant", part4:"Non",
-    bar1:"Contraintes de temps", bar2:"Transport", bar3:"Besoins en garde d'enfants", bar4:"Coût",
-    bar5:"Manque d'information sur les programmes", bar6:"Barrière linguistique",
-    other_label:"Autre:", other_ph:"Précisez…", lang_ph:"Indiquez la langue…",
-    open_ph:"Votre réponse…",
-    contact_note:"Si vous souhaitez rester connecté, recevoir des mises à jour sur les programmes communautaires ou participer aux prochaines étapes, veuillez partager vos coordonnées. C'est entièrement facultatif.",
-    name_label:"Nom", name_ph:"Votre nom…",
-    contact_label:"Email ou Téléphone", contact_ph:"Adresse email ou numéro de téléphone…",
-    volunteer_label:"Veuillez me contacter au sujet des opportunités de bénévolat ou de leadership:",
-    yes_label:"Oui", no_label:"Non",
-    next_btn:"Suivant →", prev_btn:"← Retour", submit_btn:"✓ Soumettre le Sondage",
-    ty_title:"Merci!", ty_msg:"Votre voix aide à façonner l'avenir de notre communauté. Nous sommes reconnaissants pour votre temps et vos réponses sincères. L'Église Asbury utilisera vos commentaires pour mieux servir nos quartiers.",
+  zh: {
+    church_name:"阿斯伯里教会", survey_title:"社区之声调查",
+    survey_subtitle:"携手共创美好未来",
+    survey_desc:"帮助我们了解如何共同改善我们的社区",
+    sec1_badge:"第一部分", sec1_title:"关于您",
+    sec2_badge:"第二部分", sec2_title:"社区挑战与福祉",
+    sec3_badge:"第三部分", sec3_title:"社区优势与解决方案",
+    sec4_badge:"第四部分", sec4_title:"未来合作",
+    sec5_badge:"可选", sec5_title:"保持联系",
+    q1:"您的年龄段是？", q1_note:"请选择一项",
+    q2:"您住在哪个区域？",
+    q2_note:"例如：公寓或小区名称、路口（如71st & Mingo）或邮政编码",
+    q2_placeholder:"您的社区、路口或邮政编码…",
+    q3:"您成为这个社区的一员多久了？",
+    q4:"您是否与阿斯伯里教会有联系？",
+    q5:"您认为您的社区目前面临的三大挑战是什么？",
+    q5_note:"最多选择3项",
+    q6:"您所在地区是否缺少某种特定的资源或服务？",
+    q6_note:"想想您希望步行或驾车范围内存在的事物。",
+    q7:"您或您的家人目前有哪些需求？",
+    q7_note:"请随意分享，多少均可。",
+    q8:"您是否有愿意分享的技能或爱好？",
+    q8_note:"例如：修理、辅导、园艺、烹饪、行政管理、领导力等",
+    q9:"您的社区中已有哪些优势？",
+    q10:"您是否愿意参与领导或服务社区项目？",
+    q11:"什么原因可能阻止您参与？", q11_note:"选择所有适用项",
+    dur1:"不到1年", dur2:"1–5年", dur3:"6–10年", dur4:"10年以上",
+    church1:"定期参与者", church2:"偶尔访客", church3:"未参与", church4:"从未听说过",
+    ch1:"经济适用住房", ch2:"失业", ch3:"就业不足", ch4:"食物获取",
+    ch5:"儿童托管", ch6:"交通出行", ch7:"青少年项目", ch8:"心理健康支持",
+    ch9:"可负担的医疗保健", ch10:"语言/文化障碍",
+    part1:"非常可能", part2:"有些可能", part3:"目前不太可能", part4:"不",
+    bar1:"时间限制", bar2:"交通出行", bar3:"儿童托管需求", bar4:"费用",
+    bar5:"缺乏项目相关信息", bar6:"语言障碍",
+    other_label:"其他：", other_ph:"请说明…", lang_ph:"请注明语言…",
+    open_ph:"您的回答…",
+    contact_note:"如果您希望保持联系、接收社区项目的最新消息或参与后续步骤，请在下方填写您的联系方式。这完全是自愿的。",
+    name_label:"姓名", name_ph:"您的姓名…",
+    contact_label:"电子邮件或电话", contact_ph:"电子邮件地址或电话号码…",
+    volunteer_label:"请联系我了解志愿服务或领导机会：",
+    yes_label:"是", no_label:"否",
+    next_btn:"下一步 →", prev_btn:"← 返回", submit_btn:"✓ 提交调查",
+    err_required:"此问题为必填项。",
+    ty_title:"感谢您！", ty_msg:"您的声音有助于塑造我们社区的未来。我们感谢您的时间和诚实的回答。阿斯伯里教会将利用您的反馈更好地服务我们的社区。",
   },
 
-  am: {
-    church_name:"አዝቤሪ ቤተ ክርስቲያን", survey_title:"የማህበረሰብ ድምጽ ዳሰሳ",
-    survey_subtitle:"ወደፊቱን አብረን እንቅርጻ",
-    survey_desc:"የቀዬዎቻችንን ለማሻሻል እንዴት እንደምናደርግ ለመረዳት ይርዱን",
-    sec1_badge:"ክፍል 1", sec1_title:"ስለ እርስዎ",
-    sec2_badge:"ክፍል 2", sec2_title:"የማህበረሰብ ፈተናዎች እና ደህንነት",
-    sec3_badge:"ክፍል 3", sec3_title:"የማህበረሰብ ጥንካሬዎች እና መፍትሄዎች",
-    sec4_badge:"ክፍል 4", sec4_title:"ወደፊት ሽርክና",
-    sec5_badge:"አማራጭ", sec5_title:"ተሳስሮ ቆዩ",
-    q1:"የዕድሜ ቡድንዎ ምን ነው?", q1_note:"አንድ ምረጡ",
-    q2:"በምን አካባቢ ይኖራሉ?",
-    q2_note:"ለምሳሌ: ቤቶቹ ስም ፣ ሰፈር ፣ ወይም የፖስታ ኮድ",
-    q2_placeholder:"የሰፈርዎ ስም ፣ መቋቋሚያ ፣ ወይም የፖስታ ኮድ…",
-    q3:"ለምን ያህል ጊዜ የዚህ ማህበረሰብ አካል ነዎት?",
-    q4:"ከአዝቤሪ ቤተ ክርስቲያን ጋር ተሳስረዋልን?",
-    q5:"ዛሬ ማህበረሰብዎ የሚጋፈጣቸው ዋነኛ 3 ፈተናዎች ምን ምን ናቸው?",
-    q5_note:"እስከ 3 ምረጡ",
-    q6:"ፍሬ የሌለው ወይም የጎደለ ሀብት ወይም አገልግሎት አለን?",
-    q6_note:"ጥቂ እርምጃ ርቀት ወይም በመኪና ሊደረስ የሚቻለው ስለ ምን ይፈልጉ?",
-    q7:"አሁን እርስዎ ወይም ቤተሰብዎ ምን ፍላጎቶች አሏቸው?",
-    q7_note:"ምቾት ያህሉን ሀሳብ ያካፍሉ",
-    q8:"ሊያካፍሉ የሚፈልጉ ክህሎት ወይም የትርፍ ጊዜ ማሳለፊያ አላቸው?",
-    q8_note:"ለምሳሌ: ጥገና ፣ ማስተማር ፣ ትክሻ ፣ ምግብ ማብሰል ፣ አስተዳደር ፣ መሪነት ወዘተ.",
-    q9:"ቀደም ሲል ምን ጥንካሬዎች ያለ ማህበረሰቡ ውስጥ ናቸው?",
-    q10:"በማህበረሰብ ፕሮግራሞች ውስጥ መሪ ወይም አቅርቦት ሆኖ ይሳተፋሉ?",
-    q11:"ምን ሊያዘገዩዎ ይችላሉ?", q11_note:"ሁሉም ተፈጻሚ ምርጫዎችን ምረጡ",
-    dur1:"ከ 1 ዓመት በታች", dur2:"1–5 ዓመት", dur3:"6–10 ዓመት", dur4:"ከ 10 ዓመት በላይ",
-    church1:"ቋሚ ተሳታፊ", church2:"አልፎ አልፎ ጎብኝ", church3:"ያልተሳሰረ", church4:"አሁን ድረስ አልሰማሁም",
-    ch1:"ተደራሽ የሆነ ቤት", ch2:"ሥራ አጥነት", ch3:"ትንሽ ሥራ", ch4:"ምግብ ያለ ቅርበት",
-    ch5:"የህጻናት ምግብ", ch6:"ትራንስፖርት", ch7:"የወጣቶች ፕሮግራሞች", ch8:"የአእምሮ ጤና ድጋፍ",
-    ch9:"ተደራሽ የሆነ ጤና አጠባበቅ", ch10:"የቋንቋ / የባህል እንቅፋቶች",
-    part1:"በጣም ሊሆን ይችላል", part2:"ትንሽ ሊሆን ይችላል", part3:"አሁን ምናልባት አይሆንም", part4:"አይደለም",
-    bar1:"የጊዜ እጥረት", bar2:"ትራንስፖርት", bar3:"የህጻናት ምግብ ፍላጎቶች", bar4:"ወጪ",
-    bar5:"ፕሮግራሞች ላይ መረጃ ማጣት", bar6:"የቋንቋ እንቅፋት",
-    other_label:"ሌላ:", other_ph:"ምን ማለት ነው…", lang_ph:"ቋንቋ ይጥቀሱ…",
-    open_ph:"መልስዎ…",
-    contact_note:"ተሳስሮ ለመቆየት ፣ ስለ ማህበረሰብ ፕሮግራሞች ዝርዝሮችን ለማግኘት ወይም ቀጣይ ደረጃዎች ላይ ለመሳተፍ ፍቃደኛ ከሆኑ ፣ እባክዎ ግንኙነት ይስጡ። ይህ ሙሉ በሙሉ አማራጭ ነው።",
-    name_label:"ስም", name_ph:"ስምዎ…",
-    contact_label:"ኢሜይል ወይም ስልክ", contact_ph:"የኢሜይል አድራሻ ወይም የስልክ ቁጥር…",
-    volunteer_label:"ስለ ፈቃደኛ ወይም የአመራር ዕድሎች ያነጋግሩኝ:",
-    yes_label:"አዎ", no_label:"አይ",
-    next_btn:"ቀጥሎ →", prev_btn:"← ተመለስ", submit_btn:"✓ ዳሰሳ አቅርብ",
-    ty_title:"እናመሰግናለን!", ty_msg:"ድምጽዎ የማህበረሰባችን ወደፊት ቅርጽ ለመስጠት ይረዳናል። ለጊዜዎ እና ለሐቀኝነትዎ ምስጋናቸን ላቅ ያለ ነው። አዝቤሪ ቤተ ክርስቲያን አስተያየትዎን ቀዬዎቻችንን ይበልጥ ለማገልገል ይጠቀሟል።",
+  ko: {
+    church_name:"애즈버리 교회", survey_title:"지역사회 목소리 설문조사",
+    survey_subtitle:"함께 미래를 만들어갑니다",
+    survey_desc:"우리 이웃을 함께 더 좋게 만들기 위한 의견을 나누어 주세요",
+    sec1_badge:"섹션 1", sec1_title:"귀하에 대해",
+    sec2_badge:"섹션 2", sec2_title:"지역사회 도전과 웰빙",
+    sec3_badge:"섹션 3", sec3_title:"지역사회 강점과 해결책",
+    sec4_badge:"섹션 4", sec4_title:"미래 파트너십",
+    sec5_badge:"선택사항", sec5_title:"연락 유지",
+    q1:"귀하의 연령대는 무엇입니까?", q1_note:"하나를 선택하세요",
+    q2:"어느 지역에 거주하십니까?",
+    q2_note:"예: 아파트 또는 주거단지 이름, 교차로(71st & Mingo 등), 또는 우편번호",
+    q2_placeholder:"거주 지역, 교차로 또는 우편번호…",
+    q3:"이 지역사회의 일원이 된 지 얼마나 되었습니까?",
+    q4:"애즈버리 교회와 연결되어 있습니까?",
+    q5:"오늘날 귀하의 지역사회가 직면한 상위 3가지 도전은 무엇입니까?",
+    q5_note:"최대 3개 선택",
+    q6:"귀하의 지역에 부족한 특정 자원이나 서비스가 있습니까?",
+    q6_note:"도보나 차량 거리 내에 있었으면 하는 것을 생각해 보세요.",
+    q7:"귀하 또는 가족이 현재 필요로 하는 것은 무엇입니까?",
+    q7_note:"원하는 만큼 자유롭게 공유해 주세요.",
+    q8:"공유하고 싶은 기술이나 취미가 있으십니까?",
+    q8_note:"예: 수리, 과외, 정원 가꾸기, 요리, 행정, 리더십 등",
+    q9:"귀하의 지역사회에 이미 존재하는 강점은 무엇입니까?",
+    q10:"지역사회 프로그램에서 이끌거나 봉사하는 방식으로 참여하시겠습니까?",
+    q11:"참여를 방해할 수 있는 것은 무엇입니까?", q11_note:"해당하는 모든 항목 선택",
+    dur1:"1년 미만", dur2:"1–5년", dur3:"6–10년", dur4:"10년 이상",
+    church1:"정기 참석자", church2:"가끔 방문자", church3:"연결되어 있지 않음", church4:"들어본 적 없음",
+    ch1:"저렴한 주택", ch2:"실업", ch3:"불완전 고용", ch4:"식량 접근성",
+    ch5:"아동 돌봄", ch6:"교통", ch7:"청소년 프로그램", ch8:"정신 건강 지원",
+    ch9:"저렴한 의료 서비스", ch10:"언어 / 문화적 장벽",
+    part1:"매우 가능성 있음", part2:"어느 정도 가능성 있음", part3:"현재는 가능성 낮음", part4:"아니오",
+    bar1:"시간 제약", bar2:"교통", bar3:"아동 돌봄 필요", bar4:"비용",
+    bar5:"프로그램에 대한 정보 부족", bar6:"언어 장벽",
+    other_label:"기타:", other_ph:"구체적으로 명시해 주세요…", lang_ph:"언어를 명시해 주세요…",
+    open_ph:"귀하의 답변…",
+    contact_note:"연결을 유지하거나, 지역사회 프로그램에 대한 업데이트를 받거나, 다음 단계에 참여하고 싶으시면 아래에 연락처를 공유해 주세요. 완전히 선택 사항입니다.",
+    name_label:"이름", name_ph:"귀하의 이름…",
+    contact_label:"이메일 또는 전화", contact_ph:"이메일 주소 또는 전화번호…",
+    volunteer_label:"자원봉사 또는 리더십 기회에 대해 연락해 주세요:",
+    yes_label:"예", no_label:"아니오",
+    next_btn:"다음 →", prev_btn:"← 이전", submit_btn:"✓ 설문 제출",
+    err_required:"이 질문은 필수입니다.",
+    ty_title:"감사합니다!", ty_msg:"귀하의 목소리가 우리 지역사회의 미래를 만드는 데 도움이 됩니다. 귀하의 시간과 솔직한 의견에 감사드립니다. 애즈버리 교회는 귀하의 피드백을 활용하여 우리 이웃을 더 잘 섬길 것입니다.",
   },
 };
 
@@ -1226,35 +1289,78 @@ let currentLang = 'en';
 let currentStep = 1;
 const TOTAL_STEPS = 5;
 
-function setLang(lang) {
+// ─── LANGUAGE SWITCHER ────────────────────────────────────────────────────────
+function setLang(lang, btn) {
   currentLang = lang;
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
-  
-  const isRTL = lang === 'ar';
+  if (btn) btn.classList.add('active');
+
+  const isRTL = lang === 'ar' || lang === 'fa';
   document.documentElement.dir = isRTL ? 'rtl' : 'ltr';
   document.documentElement.lang = lang;
 
   const d = T[lang] || T['en'];
 
-  // Translate all [data-i18n] elements
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
-    if (d[key]) el.textContent = d[key];
+    if (d[key] !== undefined) el.textContent = d[key];
   });
 
-  // Translate placeholders
   document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
     const key = el.getAttribute('data-i18n-placeholder');
-    if (d[key]) el.placeholder = d[key];
+    if (d[key] !== undefined) el.placeholder = d[key];
   });
+
+  // Re-render Q5 count badge text
+  updateQ5Count();
+}
+
+// ─── VALIDATION ───────────────────────────────────────────────────────────────
+function showErr(errId, blockId, show) {
+  const err = document.getElementById(errId);
+  const block = document.getElementById(blockId);
+  if (err) err.classList.toggle('visible', show);
+  if (block) block.classList.toggle('has-error', show);
+}
+
+function validateSection(step) {
+  let valid = true;
+
+  if (step === 1) {
+    const ageOk = !!document.querySelector('input[name="age"]:checked');
+    const areaOk = !!document.getElementById('q2_area').value.trim();
+    const durOk  = !!document.querySelector('input[name="duration"]:checked');
+    const chOk   = !!document.querySelector('input[name="church"]:checked');
+
+    showErr('err1', 'qblock1', !ageOk);
+    showErr('err2', 'qblock2', !areaOk);
+    showErr('err3', 'qblock3', !durOk);
+    showErr('err4', 'qblock4', !chOk);
+
+    if (!ageOk || !areaOk || !durOk || !chOk) valid = false;
+  }
+
+  if (step === 2) {
+    const checked = document.querySelectorAll('input[name="challenges"]:checked').length;
+    showErr('err5', 'qblock5', checked === 0);
+    if (checked === 0) valid = false;
+  }
+
+  return valid;
 }
 
 // ─── NAVIGATION ───────────────────────────────────────────────────────────────
 function goTo(step) {
-  document.getElementById(`sec${currentStep}`).classList.remove('active');
+  if (step > currentStep && !validateSection(currentStep)) {
+    const firstErr = document.querySelector('#sec' + currentStep + ' .error-msg.visible');
+    if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  document.getElementById('sec' + currentStep).classList.remove('active');
   currentStep = step;
-  const sec = document.getElementById(`sec${step}`);
+
+  const sec = document.getElementById('sec' + step);
   if (sec) {
     sec.classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1276,90 +1382,145 @@ function updateDots() {
   });
 }
 
+// ─── Q5 MAX-3 ENFORCEMENT ─────────────────────────────────────────────────────
+function updateQ5Count() {
+  const all     = document.querySelectorAll('input[name="challenges"]');
+  const checked = document.querySelectorAll('input[name="challenges"]:checked');
+  const count   = checked.length;
+  const badge   = document.getElementById('q5count');
+
+  if (badge) {
+    badge.textContent = count + ' / 3';
+    badge.classList.toggle('at-max', count >= 3);
+  }
+
+  all.forEach(cb => {
+    const lbl = cb.closest('.option-label') || cb.closest('.other-row');
+    if (!lbl) return;
+    const shouldDisable = !cb.checked && count >= 3;
+    lbl.classList.toggle('disabled-check', shouldDisable);
+    cb.disabled = shouldDisable;
+  });
+
+  // Clear error once at least 1 is selected
+  if (count > 0) {
+    showErr('err5', 'qblock5', false);
+  }
+}
+
 // ─── SUBMIT ───────────────────────────────────────────────────────────────────
 async function submitSurvey() {
-  // 1. Map all survey fields to a data object
   const payload = {
-    Age_Group: document.querySelector('input[name="age"]:checked')?.value || "N/A",
-    Area: document.getElementById('q2_area').value,
-    Duration: document.querySelector('input[name="duration"]:checked')?.value || "N/A",
-    Church_Connection: document.querySelector('input[name="church"]:checked')?.value || "N/A",
-    Top_Challenges: Array.from(document.querySelectorAll('input[name="challenges"]:checked')).map(el => el.value),
-    Challenge_Other: document.getElementById('ch_other_txt').value,
-    Missing_Resources: document.getElementById('q6_missing').value,
-    Family_Needs: document.getElementById('q7_needs').value,
-    Skills_Hobbies: document.getElementById('q8_skills').value,
-    Community_Strengths: document.getElementById('q9_strengths').value,
-    Will_Participate: document.querySelector('input[name="participate"]:checked')?.value || "N/A",
-    Barriers: Array.from(document.querySelectorAll('input[name="barriers"]:checked')).map(el => el.value),
-    Barrier_Other: document.getElementById('bar_lang_txt').value,
-    Name: document.getElementById('c_name').value,
-    Contact_Info: document.getElementById('c_contact').value,
-    Volunteer_Interest: document.querySelector('input[name="volunteer"]:checked')?.value || "N/A"
+    Age_Group:          document.querySelector('input[name="age"]:checked')?.value || 'N/A',
+    Area:               document.getElementById('q2_area').value,
+    Duration:           document.querySelector('input[name="duration"]:checked')?.value || 'N/A',
+    Church_Connection:  document.querySelector('input[name="church"]:checked')?.value || 'N/A',
+    Top_Challenges:     Array.from(document.querySelectorAll('input[name="challenges"]:checked')).map(el => el.value),
+    Challenge_Other:    document.getElementById('ch_other_txt').value,
+    Missing_Resources:  document.getElementById('q6_missing').value,
+    Family_Needs:       document.getElementById('q7_needs').value,
+    Skills_Hobbies:     document.getElementById('q8_skills').value,
+    Community_Strengths:document.getElementById('q9_strengths').value,
+    Will_Participate:   document.querySelector('input[name="participate"]:checked')?.value || 'N/A',
+    Barriers:           Array.from(document.querySelectorAll('input[name="barriers"]:checked')).map(el => el.value),
+    Barrier_Other:      document.getElementById('bar_lang_txt').value,
+    Name:               document.getElementById('c_name').value,
+    Contact_Info:       document.getElementById('c_contact').value,
+    Volunteer_Interest: document.querySelector('input[name="volunteer"]:checked')?.value || 'N/A'
   };
 
-  // 2. Show a "Processing" state (optional but helpful)
   const submitBtn = document.querySelector('.btn-submit');
   const originalText = submitBtn.textContent;
-  submitBtn.textContent = "Sending...";
+  submitBtn.textContent = '⏳ Sending…';
   submitBtn.disabled = true;
 
-  // 3. Send the data to your Google Apps Script URL
   try {
     await fetch('https://script.google.com/macros/s/AKfycbxC63W1IbRhS2E6BRAwQ9HYSHnTz4C9J7JKZ4ndJl6JuPwdegwWI_hHfzrYkveCqaU4Wg/exec', {
-     method: 'POST',
-      mode: 'no-cors', 
-      cache: 'no-cache',
-      // Remove or change the header to text/plain to avoid CORS preflight blocks
-      headers: { "Content-Type": "text/plain" }, 
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify(payload)
     });
-    
-    // 4. Success UI: Transition to Thank You screen
-    document.getElementById(`sec${currentStep}`).classList.remove('active');
+
+    document.getElementById('sec' + currentStep).classList.remove('active');
     document.getElementById('thankyou').classList.add('active');
     document.getElementById('progressBar').style.width = '100%';
-    document.querySelectorAll('.step-dot').forEach(d => { d.classList.remove('current'); d.classList.add('done'); });
+    document.querySelectorAll('.step-dot').forEach(d => {
+      d.classList.remove('current');
+      d.classList.add('done');
+    });
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
   } catch (error) {
-    console.error("Error!", error.message);
-    alert("Something went wrong. Please check your connection and try again.");
+    console.error('Submit error:', error);
+    alert('Something went wrong. Please check your connection and try again.');
     submitBtn.textContent = originalText;
     submitBtn.disabled = false;
   }
 }
-// ─── CHECKBOX STATE STYLING ───────────────────────────────────────────────────
-document.addEventListener('change', e => {
-  if (e.target.type === 'checkbox' || e.target.type === 'radio') {
-    const label = e.target.closest('.option-label');
+
+// ─── CHECKBOX VISUAL STATE ────────────────────────────────────────────────────
+document.addEventListener('change', function(e) {
+  const input = e.target;
+
+  // Q5 max-3 enforcement
+  if (input.name === 'challenges') {
+    updateQ5Count();
+    return;
+  }
+
+  // Radio / checkbox visual checked state
+  if (input.type === 'checkbox' || input.type === 'radio') {
+    const label = input.closest('.option-label');
     if (label) {
-      if (e.target.type === 'radio') {
-        // Uncheck siblings
-        document.querySelectorAll(`input[name="${e.target.name}"]`).forEach(r => {
+      if (input.type === 'radio') {
+        document.querySelectorAll('input[name="' + input.name + '"]').forEach(r => {
           r.closest('.option-label')?.classList.remove('checked');
         });
+        // Clear required error for this radio group
+        const errMap   = { age: 'err1', duration: 'err3', church: 'err4' };
+        const blockMap = { age: 'qblock1', duration: 'qblock3', church: 'qblock4' };
+        if (errMap[input.name]) showErr(errMap[input.name], blockMap[input.name], false);
       }
-      label.classList.toggle('checked', e.target.checked);
+      label.classList.toggle('checked', input.checked);
     }
+  }
+});
+
+// Clear Q2 error on typing
+document.addEventListener('input', function(e) {
+  if (e.target.id === 'q2_area' && e.target.value.trim()) {
+    showErr('err2', 'qblock2', false);
   }
 });
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 function buildDots() {
   const wrap = document.getElementById('stepsDots');
+  wrap.innerHTML = '';
   for (let i = 1; i <= TOTAL_STEPS; i++) {
     const dot = document.createElement('div');
     dot.className = 'step-dot' + (i === 1 ? ' current' : '');
-    dot.onclick = () => goTo(i);
-    dot.title = `Section ${i}`;
+    dot.onclick = function() { goTo(i); };
+    dot.title = 'Section ' + i;
     wrap.appendChild(dot);
   }
 }
 
+// Wire up language buttons to pass themselves as 'btn'
+document.querySelectorAll('.lang-btn').forEach(btn => {
+  const orig = btn.getAttribute('onclick');
+  const match = orig && orig.match(/setLang\('(\w+)'\)/);
+  if (match) {
+    btn.removeAttribute('onclick');
+    btn.addEventListener('click', function() { setLang(match[1], this); });
+  }
+});
+
 buildDots();
 updateProgress();
-setLang('en');
+updateQ5Count();
+setLang('en', document.querySelector('.lang-btn'));
 </script>
 </body>
 </html>
