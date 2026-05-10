@@ -635,10 +635,11 @@
 
       <hr class="q-divider">
 
-      <div class="question-block">
-        <div class="q-label"><span class="q-num">6</span><span data-i18n="q6">Is there a specific resource or service missing in your area?</span></div>
+      <div class="question-block" id="qblock6">
+        <div class="q-label"><span class="q-num">6</span><span data-i18n="q6">Is there a specific resource or service missing in your area?</span><em class="req-star" title="Required">*</em></div>
         <p class="q-note" data-i18n="q6_note">Think about what you wish existed within walking or driving distance.</p>
         <textarea class="open-textarea tall" id="q6_missing" data-i18n-placeholder="open_ph"></textarea>
+        <p class="error-msg" id="err6" data-i18n="err_required">This question is required.</p>
       </div>
 
       <hr class="q-divider">
@@ -692,8 +693,8 @@
     </div>
     <div class="section-body">
 
-      <div class="question-block">
-        <div class="q-label"><span class="q-num">10</span><span data-i18n="q10">Would you participate by leading or serving in community programs?</span></div>
+      <div class="question-block" id="qblock10">
+        <div class="q-label"><span class="q-num">10</span><span data-i18n="q10">Would you participate by leading or serving in community programs?</span><em class="req-star" title="Required">*</em></div>
         <p class="q-note" data-i18n="q1_note">Select one</p>
         <div class="options-grid two-col">
           <label class="option-label"><input type="radio" name="participate" value="very_likely"><span data-i18n="part1">Very likely</span></label>
@@ -701,12 +702,13 @@
           <label class="option-label"><input type="radio" name="participate" value="not_now"><span data-i18n="part3">Not likely right now</span></label>
           <label class="option-label"><input type="radio" name="participate" value="no"><span data-i18n="part4">No</span></label>
         </div>
+        <p class="error-msg" id="err10" data-i18n="err_required">This question is required.</p>
       </div>
 
       <hr class="q-divider">
 
-      <div class="question-block">
-        <div class="q-label"><span class="q-num">11</span><span data-i18n="q11">What would prevent you from participating?</span></div>
+      <div class="question-block" id="qblock11">
+        <div class="q-label"><span class="q-num">11</span><span data-i18n="q11">What would prevent you from participating?</span><em class="req-star" title="Required">*</em></div>
         <p class="q-note" data-i18n="q11_note">Select all that apply</p>
         <div class="options-grid two-col">
           <label class="option-label"><input type="checkbox" name="barriers" value="time"><span data-i18n="bar1">Time constraints</span></label>
@@ -721,6 +723,7 @@
           <label for="bar_other_cb" style="font-size:14px; white-space:nowrap;" data-i18n="other_label">Other:</label>
           <input type="text" class="other-text-input" id="bar_lang_txt" data-i18n-placeholder="lang_ph">
         </div>
+        <p class="error-msg" id="err11" data-i18n="err_required">This question is required.</p>
       </div>
 
     </div>
@@ -1342,8 +1345,18 @@ function validateSection(step) {
 
   if (step === 2) {
     const checked = document.querySelectorAll('input[name="challenges"]:checked').length;
+    const q6Ok = !!document.getElementById('q6_missing').value.trim();
     showErr('err5', 'qblock5', checked === 0);
-    if (checked === 0) valid = false;
+    showErr('err6', 'qblock6', !q6Ok);
+    if (checked === 0 || !q6Ok) valid = false;
+  }
+
+  if (step === 4) {
+    const participateOk = !!document.querySelector('input[name="participate"]:checked');
+    const barriersOk = document.querySelectorAll('input[name="barriers"]:checked').length > 0;
+    showErr('err10', 'qblock10', !participateOk);
+    showErr('err11', 'qblock11', !barriersOk);
+    if (!participateOk || !barriersOk) valid = false;
   }
 
   return valid;
@@ -1434,7 +1447,7 @@ async function submitSurvey() {
   submitBtn.textContent = '⏳ Sending…';
   submitBtn.disabled = true;
 
-  try {
+ try {
     // 1. Create a FormData object to package your survey answers correctly
     const formData = new FormData();
     for (const key in payload) {
@@ -1475,6 +1488,14 @@ document.addEventListener('change', function(e) {
     return;
   }
 
+  // Q11 barriers — clear error once at least 1 is checked
+  if (input.name === 'barriers') {
+    if (document.querySelectorAll('input[name="barriers"]:checked').length > 0) {
+      showErr('err11', 'qblock11', false);
+    }
+    return;
+  }
+
   // Radio / checkbox visual checked state
   if (input.type === 'checkbox' || input.type === 'radio') {
     const label = input.closest('.option-label');
@@ -1484,8 +1505,8 @@ document.addEventListener('change', function(e) {
           r.closest('.option-label')?.classList.remove('checked');
         });
         // Clear required error for this radio group
-        const errMap   = { age: 'err1', duration: 'err3', church: 'err4' };
-        const blockMap = { age: 'qblock1', duration: 'qblock3', church: 'qblock4' };
+        const errMap   = { age: 'err1', duration: 'err3', church: 'err4', participate: 'err10' };
+        const blockMap = { age: 'qblock1', duration: 'qblock3', church: 'qblock4', participate: 'qblock10' };
         if (errMap[input.name]) showErr(errMap[input.name], blockMap[input.name], false);
       }
       label.classList.toggle('checked', input.checked);
@@ -1497,6 +1518,9 @@ document.addEventListener('change', function(e) {
 document.addEventListener('input', function(e) {
   if (e.target.id === 'q2_area' && e.target.value.trim()) {
     showErr('err2', 'qblock2', false);
+  }
+  if (e.target.id === 'q6_missing' && e.target.value.trim()) {
+    showErr('err6', 'qblock6', false);
   }
 });
 
