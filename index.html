@@ -665,10 +665,11 @@
     </div>
     <div class="section-body">
 
-      <div class="question-block">
-        <div class="q-label"><span class="q-num">8</span><span data-i18n="q8">Do you have a skill or hobby you would be willing to share?</span></div>
+      <div class="question-block" id="qblock8">
+        <div class="q-label"><span class="q-num">8</span><span data-i18n="q8">You have gifts your community needs. What are you good at, or what do you care about, that you'd be willing to share with your neighbors?</span><em class="req-star" title="Required">*</em></div>
         <p class="q-note" data-i18n="q8_note">e.g., fixing things, tutoring, gardening, cooking, administration, leadership, etc.</p>
         <textarea class="open-textarea tall" id="q8_skills" data-i18n-placeholder="open_ph"></textarea>
+        <p class="error-msg" id="err8" data-i18n="err_required">This question is required.</p>
       </div>
 
       <hr class="q-divider">
@@ -800,7 +801,7 @@ const T = {
     q6_note:"Think about what you wish existed within walking or driving distance.",
     q7:"What needs do you or your family currently have?",
     q7_note:"Feel free to share as much or as little as you like.",
-    q8:"Do you have a skill or hobby you would be willing to share?",
+    q8:"You have gifts your community needs. What are you good at, or what do you care about, that you'd be willing to share with your neighbors?",
     q8_note:"e.g., fixing things, tutoring, gardening, cooking, administration, leadership, etc.",
     q9:"What strengths already exist in your community?",
     q10:"Would you participate by leading or serving in community programs?",
@@ -847,7 +848,7 @@ const T = {
     q6_note:"Piensa en lo que desearías que existiera a distancia caminable o en coche.",
     q7:"¿Qué necesidades tienen tú o tu familia actualmente?",
     q7_note:"Comparte tanto o tan poco como desees.",
-    q8:"¿Tienes alguna habilidad o pasatiempo que estés dispuesto a compartir?",
+    q8:"Tienes dones que tu comunidad necesita. ¿En qué eres bueno o buena, o qué te apasiona, que estarías dispuesto/a a compartir con tus vecinos?",
     q8_note:"p.ej., reparaciones, tutoría, jardinería, cocina, administración, liderazgo, etc.",
     q9:"¿Qué fortalezas existen ya en tu comunidad?",
     q10:"¿Participarías liderando o sirviendo en programas comunitarios?",
@@ -893,7 +894,7 @@ const T = {
     q6_note:"Подумайте, що ви хотіли б мати в пішій або автомобільній доступності.",
     q7:"Які потреби є у вас або вашої родини зараз?",
     q7_note:"Поділіться стільки, скільки хочете.",
-    q8:"Чи маєте ви навичку або хобі, яким ви готові поділитися?",
+    q8:"У вас є дари, які потрібні вашій громаді. У чому ви сильні, або що вам небайдуже, чим ви готові поділитися зі своїми сусідами?",
     q8_note:"напр., ремонт, репетиторство, садівництво, кулінарія, адміністрування, лідерство тощо.",
     q9:"Які сильні сторони вже існують у вашій громаді?",
     q10:"Чи ви б брали участь у керівництві або служінні в громадських програмах?",
@@ -939,7 +940,7 @@ const T = {
     q6_note:"فكر فيما تتمنى أن يكون متاحاً على مسافة المشي أو القيادة.",
     q7:"ما الاحتياجات التي تواجهها أنت أو عائلتك حالياً؟",
     q7_note:"شارك بقدر ما تريد.",
-    q8:"هل لديك مهارة أو هواية تودّ مشاركتها؟",
+    q8:"لديك مواهب يحتاجها مجتمعك. ما الذي تجيده، أو ما الذي تهتم به، وتكون مستعداً لمشاركته مع جيرانك؟",
     q8_note:"مثل: الإصلاح، التدريس، الزراعة، الطبخ، الإدارة، القيادة، إلخ.",
     q9:"ما نقاط القوة الموجودة أصلاً في مجتمعك؟",
     q10:"هل ستشارك في قيادة أو خدمة برامج مجتمعية؟",
@@ -985,7 +986,7 @@ const T = {
     q6_note:"Подумайте, чего вам не хватает в пешей или автомобильной доступности.",
     q7:"Какие потребности есть у вас или вашей семьи в настоящее время?",
     q7_note:"Поделитесь столько, сколько хотите.",
-    q8:"Есть ли у вас навык или хобби, которым вы готовы поделиться?",
+    q8:"У вас есть дары, которые нужны вашему сообществу. В чём вы хороши, или что вам небезразлично, чем вы готовы поделиться с соседями?",
     q8_note:"напр., ремонт, репетиторство, садоводство, кулинария, администрирование, лидерство и т.д.",
     q9:"Какие сильные стороны уже есть в вашем сообществе?",
     q10:"Будете ли вы участвовать в руководстве или служении в общественных программах?",
@@ -1031,7 +1032,7 @@ const T = {
     q6_note:"လမ်းလျှောက် သို့မဟုတ် ကား မောင်းနိုင်သောနေရာတွင် ရှိစေချင်သောအရာကို တွေးကြည့်ပါ",
     q7:"သင် သို့မဟုတ် သင့်မိသားစုတွင် လောလောဆယ် မည်သည့်လိုအပ်ချက်များ ရှိသလဲ?",
     q7_note:"ကြိုက်သလောက် မျှဝေပါ",
-    q8:"မျှဝေလိုသော ကျွမ်းကျင်မှု သို့မဟုတ် ဝါသနာ ရှိပါသလား?",
+    q8:"သင့်လူ့အဖွဲ့အစည်းက လိုအပ်နေတဲ့ ဆုကျေးဇူးတွေ သင့်မှာ ရှိပါတယ်။ သင် ဘာကောင်းသလဲ၊ ဒါမှမဟုတ် ဘာကို အလေးထားသလဲ၊ ဒါကို အိမ်နီးချင်းတွေနဲ့ မျှဝေဖို့ သင်အဆင်သင့်ရှိပါသလား?",
     q8_note:"ဥပမာ - ပြင်ဆင်ခြင်း၊ သင်ကြားခြင်း၊ ဥယျာဉ်မှုပညာ၊ ချက်ပြုတ်ခြင်း၊ စီမံခန့်ခွဲမှု၊ ခေါင်းဆောင်မှု",
     q9:"သင့်လူ့အဖွဲ့အစည်းတွင် မည်သည့် အားသာချက်များ ရှိနေပြီးဖြစ်သလဲ?",
     q10:"လူ့အဖွဲ့အစည်း အစီအစဥ်များတွင် ဦးဆောင်ခြင်း သို့မဟုတ် ဝန်ဆောင်မှုပြုခြင်းဖြင့် ပါဝင်မည်လား?",
@@ -1077,7 +1078,7 @@ const T = {
     q6_note:"Nang na khawm nuam ding, dawi lam leh kawlpi lam a om thei ding thu phialhna",
     q7:"Nang ahiam na ngaihkhat uh kimawh leh thil ding ahi?",
     q7_note:"Na nuam zong thu kisiam thei hi",
-    q8:"Na kipahteh ding na theampo ahiam pan thil thei in na om hi a?",
+    q8:"Na koikhawm in a ngaih hi na thilpiak na nei hi. Nang bang na hoih pen, ahiam bang na ngaihsun pen, na innpam te tawh na piak nuam pen bang ahi?",
     q8_note:"Tualbang: suahkhia, zangkhia, sawtawn, ziang, tangko, lamdanpihna",
     q9:"Na koikhawm sungah lehlinna bang ding om hi?",
     q10:"Koikhawm program sungah dangthu ahiam zotakna in na paidan ding in?",
@@ -1123,7 +1124,7 @@ const T = {
     q6_note:"Hãy nghĩ về điều bạn ước có thể đến được bằng cách đi bộ hoặc lái xe.",
     q7:"Bạn hoặc gia đình bạn hiện có những nhu cầu gì?",
     q7_note:"Hãy chia sẻ bao nhiêu tùy ý.",
-    q8:"Bạn có kỹ năng hoặc sở thích nào muốn chia sẻ không?",
+    q8:"Bạn có những món quà mà cộng đồng bạn cần. Bạn giỏi điều gì, hoặc bạn quan tâm đến điều gì, mà bạn sẵn lòng chia sẻ với hàng xóm của mình?",
     q8_note:"ví dụ: sửa chữa, gia sư, làm vườn, nấu ăn, quản lý, lãnh đạo, v.v.",
     q9:"Điểm mạnh nào đã tồn tại trong cộng đồng của bạn?",
     q10:"Bạn có muốn tham gia dẫn dắt hoặc phục vụ trong các chương trình cộng đồng không?",
@@ -1169,7 +1170,7 @@ const T = {
     q6_note:"به چیزی فکر کنید که دوست داشتید در فاصله پیاده‌روی یا رانندگی موجود باشد.",
     q7:"شما یا خانواده‌تان در حال حاضر چه نیازهایی دارید؟",
     q7_note:"هر اندازه که مایلید به اشتراک بگذارید.",
-    q8:"آیا مهارت یا سرگرمی‌ای دارید که بخواهید به اشتراک بگذارید؟",
+    q8:"شما استعدادهایی دارید که جامعه‌تان به آن نیاز دارد. در چه چیزی مهارت دارید یا به چه چیزی اهمیت می‌دهید که مایلید با همسایگان خود به اشتراک بگذارید؟",
     q8_note:"مثلاً: تعمیر، آموزش، باغبانی، آشپزی، مدیریت، رهبری و غیره",
     q9:"چه نقاط قوتی از قبل در جامعه شما وجود دارد؟",
     q10:"آیا در رهبری یا خدمت در برنامه‌های اجتماعی شرکت می‌کنید؟",
@@ -1215,7 +1216,7 @@ const T = {
     q6_note:"想想您希望步行或驾车范围内存在的事物。",
     q7:"您或您的家人目前有哪些需求？",
     q7_note:"请随意分享，多少均可。",
-    q8:"您是否有愿意分享的技能或爱好？",
+    q8:"您拥有社区所需要的天赋。您擅长什么，或者您关心什么，愿意与邻居分享？",
     q8_note:"例如：修理、辅导、园艺、烹饪、行政管理、领导力等",
     q9:"您的社区中已有哪些优势？",
     q10:"您是否愿意参与领导或服务社区项目？",
@@ -1261,7 +1262,7 @@ const T = {
     q6_note:"도보나 차량 거리 내에 있었으면 하는 것을 생각해 보세요.",
     q7:"귀하 또는 가족이 현재 필요로 하는 것은 무엇입니까?",
     q7_note:"원하는 만큼 자유롭게 공유해 주세요.",
-    q8:"공유하고 싶은 기술이나 취미가 있으십니까?",
+    q8:"귀하는 지역사회가 필요로 하는 재능을 가지고 있습니다. 무엇을 잘하시나요, 또는 무엇에 관심이 있으신가요? 이웃과 기꺼이 나누고 싶은 것은 무엇입니까?",
     q8_note:"예: 수리, 과외, 정원 가꾸기, 요리, 행정, 리더십 등",
     q9:"귀하의 지역사회에 이미 존재하는 강점은 무엇입니까?",
     q10:"지역사회 프로그램에서 이끌거나 봉사하는 방식으로 참여하시겠습니까?",
@@ -1349,6 +1350,12 @@ function validateSection(step) {
     showErr('err5', 'qblock5', checked === 0);
     showErr('err6', 'qblock6', !q6Ok);
     if (checked === 0 || !q6Ok) valid = false;
+  }
+
+  if (step === 3) {
+    const q8Ok = !!document.getElementById('q8_skills').value.trim();
+    showErr('err8', 'qblock8', !q8Ok);
+    if (!q8Ok) valid = false;
   }
 
   if (step === 4) {
@@ -1521,6 +1528,9 @@ document.addEventListener('input', function(e) {
   }
   if (e.target.id === 'q6_missing' && e.target.value.trim()) {
     showErr('err6', 'qblock6', false);
+  }
+  if (e.target.id === 'q8_skills' && e.target.value.trim()) {
+    showErr('err8', 'qblock8', false);
   }
 });
 
